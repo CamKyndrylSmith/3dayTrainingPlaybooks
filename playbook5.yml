@@ -1,0 +1,85 @@
+---
+# ------------------------------------------------
+# Camerons Ansible PlayBook 4
+#
+# Purpose:  Demonstrate dealing with a file
+# ------------------------------------------------
+- name: Cam's playbook 4 
+  gather_facts: false
+  hosts: all
+  vars:
+    conf_dir: 'C:\Temp'
+    conf_file: 'file2copy.txt'
+    
+  tasks:
+    - name: Look for folder
+      win_stat:
+        path: '{{ conf_dir }}'
+      register: folder_check 
+
+    - name: Create a temp folder 
+      win_file:
+        path: '{{ conf_dir }}'
+        state: directory
+      when: folder_check.stat.exists == false
+
+    - name: Find the file
+      win_find:
+        paths: '{{ conf_dir }}' 
+        patterns: '{{ conf_file }}'
+      register: file_result      
+      ignore_errors: true
+      when: folder_check.stat.exists == true
+
+    - name: Create a missing configuration file
+      win_copy:
+        src:  'files/{{ conf_file }}'
+        dest: '{{ conf_dir }}{{ conf_file }}'
+      register: file_create  
+      when: 
+        - folder_check.stat.exists == true
+        - file_result.matched == 0
+
+    - name: Create file with content
+      copy:
+        content: "This is my content"
+        dest: /tmp/testcontent.txt
+
+    - name: Check if string exists in file
+      win_lineinfile:
+        path: '{{ conf_dir }}{{ conf_file }}'
+        regexp: '.*MissingString*'
+        line: 'Add this line to the file because it was missing'
+        state: present
+      register: string_check_result
+      when: 
+        - folder_check.stat.exists == true
+        - file_result.matched > 0 
+
+    - name: Create a temp folder to hold file (localhost)
+      file:
+        path: /tmp/fetch
+        state: directory
+      delegate_to: localhost
+      run_once: true
+
+    - name: Fetch file to (localhost)
+      fetch:
+        src: '{{ conf_dir }}{{ conf_file }}'
+        dest: /tmp/fetch/
+        flat: true
+      ignore_errors: true
+      when: 
+        - folder_check.stat.exists == true
+        - file_result.matched > 0  
+      
+    - name: Read and display content of the file
+      shell: cat /tmp/fetch/{{ conf_file }}
+      register: file_content
+
+    - name: Display content in playbook
+      debug:
+        var: file_content.stdout_lines
+
+   
+      
