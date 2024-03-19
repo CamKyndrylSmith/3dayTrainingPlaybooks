@@ -35,15 +35,14 @@
 
     - name: Display all of the output
       debug: 
-        var: login.stdout
+        msg: "{{ login.stdout }}"
     
     - name: Display just the Start value of the output
       debug: 
         var: login.start
     
     - name: Display just the Cmd that was run
-      debug: 
-        var: login.cmd
+      debug: var=login.cmd
 
   post_tasks:
     - name: Send data to the artifacts
