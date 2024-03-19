@@ -45,12 +45,12 @@
       debug: 
         var: login.cmd
 
-    post_tasks:
-      - name: Send data to the artifacts
-        set_stats:
-          data:
-            asset_name: "Camerons Custom playbook"
-            default: "https://github.com/CamKyndrylSmith/3dayTrainingPlaybooks"
-            rc_success: true
-          rc_message: "This playpook was run on {{ ansible_hostname }}"  
+  post_tasks:
+    - name: Send data to the artifacts
+      set_stats:
+        data:
+          asset_name: "Camerons Custom playbook"
+          default: "https://github.com/CamKyndrylSmith/3dayTrainingPlaybooks"
+          rc_success: true
+        rc_message: "This playpook was run on {{ ansible_hostname }}"  
 
