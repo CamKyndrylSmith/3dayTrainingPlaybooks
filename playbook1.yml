@@ -13,3 +13,10 @@
   # My second comment  
   - name: "Second comment out"
     win_shell: echo "Hi! back at you.."
+
+  post_tasks:
+    - name: Set custom stats
+      set_stats:
+        data:
+          custom_metric: 42
+          another_metric: 100  
