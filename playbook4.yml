@@ -10,21 +10,56 @@
   vars:
     hostspath: 'c:\Windows\System32\Drivers\etc\hosts'
     dontexist: 'c:\Door\System32\help.txt'
-    lines:
-    - 192.0.1.99 foo.cam.net
-    - 192.0.1.100 foo.cam.net
-    - 192.0.1.101 foo.cam.net
 
   tasks:
-  
+    - name: Show facts available on the system
+      debug:
+        var: ansible_facts
+
     - name: Basic condition 
       win_shell: Get-Content -Path {{ hostspath }}
       register: hosts_info
       when: ansible_system == "Win32NT"
-
-    - name: "Display valriable data"
+    
+    - name: "Display host file stdout"
       debug:
-        msg: "{{ hosts_info }}"
+        msg: "{{ hosts_info.stdout }}"
+        
+    - name: when AND condition 
+      debug:
+        msg: "Run when AND condition is meet"
+      when: (ansible_system == "Win32NT") and 
+            (ansible_distribution_major_version > 9)
+
+    - name: when OR condition 
+      debug:
+        msg: "Run when OR condition match"
+      when: (ansible_windows_domain_member == false) or 
+            (ansible_windows_domain == "WORKGROUP")
+
+    - name: when list of condition s
+      debug:
+        msg: "List of condition have been meet"
+      when: 
+        - ansible_windows_domain_member == false 
+        - ansible_windows_domain == "WORKGROUP"
+        - ansible_system == "Win32NT"
+        - ansible_memtotal_mb > 4095
+
+    - name: "Display when condition NOT equal to"
+      debug:
+        msg: "This is NOT RedHat system"
+      when: ansible_system != "RedHat"
+    
+    - name: "Set a variable if it does not exist"
+      set_fact:
+        missingValue: foo
+      when: missingValue is not defined
+  
+    - name: Check for "x" is not defined
+      debug:
+        var: "WARNING x is not defined."
+      when: x is not defined
 
     - name: Use a block
       block:
@@ -37,4 +72,4 @@
       rescue:
         - name: "Please rescue me as I did not work"
           debug:
-            msg: "ERROR: the block code did not work."
+            msg: "ERROR: Fetch file task failed in a block."
