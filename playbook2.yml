@@ -9,42 +9,48 @@
   hosts: all
 
   tasks:
-  
-  - name: "Debug output"
-    debug: 
-      msg: "DEBUG: This is a debug message from the playbook."
+    - name: Show gather facts results
+      debug:
+        var: ansible_facts
+
+    - name: "Debug output"
+      debug: 
+        msg: "DEBUG: This is a debug message from the playbook."
+      
+    - name: "display a gather fact data"
+      debug:
+        msg: "{{ ansible_hostname }}"
     
-  - name: "display a gather fact data"
-    debug:
-      msg: "{{ ansible_hostname }}"
-  
-  - name: set a variable for display
-    set_fact:
-      result_values: "A result value: 994"
+    - name: set a variable for display
+      set_fact:
+        result_values: "A result value: 994"
+      
+    - name: "Display valriable data"
+      debug:
+        msg: "{{ result_values }}"
+
+    - name: capture output of whoami command
+      win_shell: whoami
+      register: login
+
+    - name: Display all of the output
+      debug: 
+        var: login.stdout
     
-  - name: "Display valriable data"
-    debug:
-      msg: "{{ result_values }}"
+    - name: Display just the Start value of the output
+      debug: 
+        var: login.start
+    
+    - name: Display just the Cmd that was run
+      debug: 
+        var: login.cmd
 
-  - name: capture output of whoami command
-    win_shell: whoami
-    register: login
-
-  - debug: 
-      var: login.stdout
-  
-  - debug: 
-      var: login.start
-  
-  - debug: 
-      var: login.cmd
-
-  post_tasks:
-    - name: Send data to the artifacts panael
-      set_stats:
-        data:
-          asset_name: "Camerons Custom playbook"
-          default: "https://github.com/CamKyndrylSmith/3dayTrainingPlaybooks"
-          rc_success: true
+    post_tasks:
+      - name: Send data to the artifacts
+        set_stats:
+          data:
+            asset_name: "Camerons Custom playbook"
+            default: "https://github.com/CamKyndrylSmith/3dayTrainingPlaybooks"
+            rc_success: true
           rc_message: "This playpook was run on {{ ansible_hostname }}"  
 
