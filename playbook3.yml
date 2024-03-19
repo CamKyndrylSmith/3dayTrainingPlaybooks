@@ -1,0 +1,50 @@
+---
+# ------------------------------------------------
+# Camerons Ansible PlayBook 3
+#
+# Purpose: ways to return values 
+# ------------------------------------------------
+- name: Cam's playbook 3
+  gather_facts: true
+  hosts: all
+
+  tasks:
+  
+  - name: "Debug output"
+    debug: 
+      msg: "DEBUG: This is a debug message from the playbook."
+    
+  - name: "display a gather fact data"
+    debug:
+      msg: "{{ ansible_hostname }}"
+  
+  - name: set a variable for display
+    set_fact:
+      result_values: "A result value: 994"
+    
+  - name: "Display valriable data"
+    debug:
+      msg: "{{ result_values }}"
+
+  - name: capture output of whoami command
+    win_shell: whoami
+    register: login
+
+  - debug: 
+      var: login.stdout
+  
+  - debug: 
+      var: login.start
+  
+  - debug: 
+      var: login.cmd
+
+  post_tasks:
+    - name: Send data to the artifacts panael
+      set_stats:
+        data:
+          asset_name: "Camerons Custom playbook"
+          default: "https://github.com/CamKyndrylSmith/3dayTrainingPlaybooks"
+          rc_success: true
+          rc_message: "This playpook was run on {{ ansible_hostname }}"  
+
