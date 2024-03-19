@@ -21,16 +21,22 @@
   
   tasks:
     - name: "Variable 1 from Playbook itself"
-      win_shell: echo "{{ var1PB }}"
+      debug: 
+        msg: "{{ var1PB }}"
     
     - name: "Variable 2 from Host"
-      win_shell: echo "{{ var2Host }}"
+      debug: 
+        msg: "{{ var2Host }}"
     
     - name: "Variable 3 from Invetory"
-      win_shell: echo "{{ var3Inv }}"
+      debug: 
+        msg: "{{ var3Inv }}"
+    #  ignore_errors: true
     
     - name: "Variable 4 from Template"
-      win_shell: echo "{{ var4Temp }}"
+      debug: 
+        msg: "{{ var4Temp }}"
       
     - name: "Variable 5 from a file"
-      win_shell: echo "{{ var5file }}"
+      debug: 
+        msg: "{{ var5file }}"
