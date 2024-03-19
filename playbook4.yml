@@ -53,9 +53,9 @@
         missingValue: foo
       when: missingValue is not defined
   
-    - name: Check for "x" is not defined
+    - name: Check for x is not defined
       debug:
-        var: "WARNING x is not defined."
+        msg: "WARNING x is not defined."
       when: x is not defined
 
     - name: Use a block
