@@ -5,7 +5,7 @@
 # ------------------------------------------------
 - name: Cam's playbook 4
   hosts: all
-
+  gather_facts: true
   # Variables - lines to add to hosts file
   vars:
     hostspath: 'c:\Windows\System32\Drivers\etc\hosts'
