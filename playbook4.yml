@@ -37,4 +37,4 @@
       rescue:
         - name: "Please rescue me as I did not work"
           debug:
-          msg: "ERROR: the block code did not work."
+            msg: "ERROR: the block code did not work."
