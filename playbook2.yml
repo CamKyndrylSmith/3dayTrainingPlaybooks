@@ -52,5 +52,5 @@
           asset_name: "Camerons Custom playbook"
           default: "https://github.com/CamKyndrylSmith/3dayTrainingPlaybooks"
           rc_success: true
-        rc_message: "This playpook was run on {{ ansible_hostname }}"  
+          rc_message: "This playpook was run on {{ ansible_hostname }}"  
 
