@@ -1,6 +1,6 @@
 ---
 # ------------------------------------------------
-# Camerons Ansible PlayBook 2
+# Camerons Ansible PlayBook 3
 #
 # Purpose: Variables in the different locations
 #           1 Playbook
@@ -9,7 +9,7 @@
 #           4 Template
 #           5 From a File
 # ------------------------------------------------
-- name: Cam's playbook 2
+- name: Cam's playbook 3
   gather_facts: false
   hosts: all
   

@@ -1,10 +1,10 @@
 ---
 # ------------------------------------------------
-# Camerons Ansible PlayBook 3
+# Camerons Ansible PlayBook 2
 #
 # Purpose: ways to return values 
 # ------------------------------------------------
-- name: Cam's playbook 3
+- name: Cam's playbook 2
   gather_facts: true
   hosts: all
 
