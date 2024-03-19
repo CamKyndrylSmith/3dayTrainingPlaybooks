@@ -66,6 +66,7 @@
             dest: /tmp/
             flat: true
       when: ansible_system == "Win32NT"
+      ignore_errors: yes
       rescue:
         - name: "Please rescue me as I did not work"
           debug:
