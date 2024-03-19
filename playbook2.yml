@@ -2,7 +2,7 @@
 # ------------------------------------------------
 # Camerons Ansible PlayBook 2
 #
-# Purpose: ways to return values 
+# Purpose: Debug values 
 # ------------------------------------------------
 - name: Cam's playbook 2
   gather_facts: true
