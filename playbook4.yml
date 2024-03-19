@@ -17,32 +17,32 @@
 
   tasks:
   
-  - name: Basic condition 
-    win_shell: Get-Content -Path {{ hostspath }}
-    register: hosts_info
-    when: ansible_system == "Win32NT"
+    - name: Basic condition 
+      win_shell: Get-Content -Path {{ hostspath }}
+      register: hosts_info
+      when: ansible_system == "Win32NT"
 
-  - name: "Display valriable data"
-    debug:
-      msg: "{{ hosts_info }}"
+    - name: "Display valriable data"
+      debug:
+        msg: "{{ hosts_info }}"
 
-  - name: Use a block
-    block:
-      - name: Add line to file if
-        win_lineinfile:
-          path: "{{ hostspath }}"
-          line: "{{ item }}"
-          insertafter: EOF
-        when: ansible_system == "Win32NT" and not item in hosts_info.stdout
-        loop: "{{ lines }}"
+    - name: Use a block
+      block:
+        - name: Add line to file if
+          win_lineinfile:
+            path: "{{ hostspath }}"
+            line: "{{ item }}"
+            insertafter: EOF
+          when: ansible_system == "Win32NT" and not item in hosts_info.stdout
+          loop: "{{ lines }}"
 
-      - name: Fetch file to fail
-        fetch:
-          src: '{{ dontexist }}'
-          dest: /tmp/
-          flat: true
-
-    rescue:
-      - name: "Please rescue me as I did not work"
-        debug:
-        msg: "ERROR: the block code did not work."
+        - name: Fetch file to fail
+          fetch:
+            src: '{{ dontexist }}'
+            dest: /tmp/
+            flat: true
+      when: ansible_system == "Win32NT"
+      rescue:
+        - name: "Please rescue me as I did not work"
+          debug:
+          msg: "ERROR: the block code did not work."
