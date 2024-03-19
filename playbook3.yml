@@ -1,50 +1,36 @@
 ---
 # ------------------------------------------------
-# Camerons Ansible PlayBook 3
+# Camerons Ansible PlayBook 2
 #
-# Purpose: ways to return values 
+# Purpose: Variables in the different locations
+#           1 Playbook
+#           2 Host
+#           3 Invetory
+#           4 Template
+#           5 From a File
 # ------------------------------------------------
-- name: Cam's playbook 3
-  gather_facts: true
+- name: Cam's playbook 2
+  gather_facts: false
   hosts: all
-
+  
+  vars:
+    var1PB: "Text from the PlayBook. Variable 1"
+  
+  vars_files:
+    - ./files/cams_varaible.yml
+  
   tasks:
-  
-  - name: "Debug output"
-    debug: 
-      msg: "DEBUG: This is a debug message from the playbook."
+    - name: "Variable 1 from Playbook itself"
+      win_shell: echo "{{ var1PB }}"
     
-  - name: "display a gather fact data"
-    debug:
-      msg: "{{ ansible_hostname }}"
-  
-  - name: set a variable for display
-    set_fact:
-      result_values: "A result value: 994"
+    - name: "Variable 2 from Host"
+      win_shell: echo "{{ var2Host }}"
     
-  - name: "Display valriable data"
-    debug:
-      msg: "{{ result_values }}"
-
-  - name: capture output of whoami command
-    win_shell: whoami
-    register: login
-
-  - debug: 
-      var: login.stdout
-  
-  - debug: 
-      var: login.start
-  
-  - debug: 
-      var: login.cmd
-
-  post_tasks:
-    - name: Send data to the artifacts panael
-      set_stats:
-        data:
-          asset_name: "Camerons Custom playbook"
-          default: "https://github.com/CamKyndrylSmith/3dayTrainingPlaybooks"
-          rc_success: true
-          rc_message: "This playpook was run on {{ ansible_hostname }}"  
-
+    - name: "Variable 3 from Invetory"
+      win_shell: echo "{{ var3Inv }}"
+    
+    - name: "Variable 4 from Template"
+      win_shell: echo "{{ var4Temp }}"
+      
+    - name: "Variable 5 from a file"
+      win_shell: echo "{{ var5file }}"
