@@ -28,14 +28,6 @@
 
     - name: Use a block
       block:
-        - name: Add line to file if
-          win_lineinfile:
-            path: "{{ hostspath }}"
-            line: "{{ item }}"
-            insertafter: EOF
-          when: ansible_system == "Win32NT" and not item in hosts_info.stdout
-          loop: "{{ lines }}"
-
         - name: Fetch file to fail
           fetch:
             src: '{{ dontexist }}'
