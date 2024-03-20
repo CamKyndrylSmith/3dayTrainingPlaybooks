@@ -31,7 +31,7 @@
     - name: "Variable 3 from Invetory"
       debug: 
         msg: "{{ var3Inv }}"
-      #ignore_errors: true
+      ignore_errors: true
     
     - name: "Variable 4 from Template"
       debug: 
