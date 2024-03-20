@@ -54,7 +54,7 @@
 
     - name: Fetch file from host to (localhost)
       fetch:
-        src: '{{ conf_dir }}{{ conf_file }}'
+        src: "C:\\temp\\file2copy.txt"
         dest: /tmp/fetch/
         flat: true
       ignore_errors: true
