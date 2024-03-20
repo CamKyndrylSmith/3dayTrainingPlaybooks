@@ -43,7 +43,7 @@
     - name: Create file with content
       copy:
         content: "This is my content"
-        dest: /tmp/testcontent.txt
+        dest: "{{ conf_dir }}\\testcontent.txt"
 
     - name: Create a temp folder to hold file (localhost)
       file:
