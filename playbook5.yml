@@ -65,10 +65,14 @@
     - name: Read and display content of the file
       shell: cat /tmp/fetch/{{ conf_file }}
       register: file_content
+      delegate_to: localhost
+      run_once: true
 
     - name: Display content in playbook
       debug:
         var: file_content.stdout_lines
+      delegate_to: localhost
+      run_once: true
 
    
       
