@@ -1,10 +1,10 @@
 ---
 # ------------------------------------------------
-# Camerons Ansible PlayBook 4
+# Camerons Ansible PlayBook 5
 #
 # Purpose:  Demonstrate dealing with a file
 # ------------------------------------------------
-- name: Cam's playbook 4 
+- name: Cam's playbook 5 
   gather_facts: false
   hosts: all
   vars:
@@ -44,17 +44,6 @@
       copy:
         content: "This is my content"
         dest: /tmp/testcontent.txt
-
-    - name: Check if string exists in file
-      win_lineinfile:
-        path: '{{ conf_dir }}{{ conf_file }}'
-        regexp: '.*MissingString*'
-        line: 'Add this line to the file because it was missing'
-        state: present
-      register: string_check_result
-      when: 
-        - folder_check.stat.exists == true
-        - file_result.matched > 0 
 
     - name: Create a temp folder to hold file (localhost)
       file:
