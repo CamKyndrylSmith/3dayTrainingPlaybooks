@@ -71,6 +71,9 @@
       run_once: true
 
     - name: Remove files
-      win_shell: Remove-Item -Path "{{ conf_dir }}\*" -Force
-   
+      win_file:
+        path: 'C:\temp\file2copy.txt'
+        state: absent
+      ignore_errors: true
+        
       
