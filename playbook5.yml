@@ -52,17 +52,14 @@
       delegate_to: localhost
       run_once: true
 
-    - name: Fetch file to (localhost)
+    - name: Fetch file from host to (localhost)
       fetch:
         src: '{{ conf_dir }}{{ conf_file }}'
         dest: /tmp/fetch/
         flat: true
       ignore_errors: true
-      when: 
-        - folder_check.stat.exists == true
-        - file_result.matched > 0  
-      
-    - name: Read and display content of the file
+            
+    - name: Read and display content of the file the is on localhost
       shell: cat /tmp/fetch/{{ conf_file }}
       register: file_content
       delegate_to: localhost
