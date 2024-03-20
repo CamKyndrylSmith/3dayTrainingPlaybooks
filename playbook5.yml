@@ -71,5 +71,7 @@
       delegate_to: localhost
       run_once: true
 
+    - name: Remove files
+      win_shell: Remove-Item -Path "{{ conf_dir }}\*" -Force
    
       
