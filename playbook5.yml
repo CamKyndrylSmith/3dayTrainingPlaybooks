@@ -31,11 +31,10 @@
       ignore_errors: true
       when: folder_check.stat.exists == true
 
-    - name: Create a missing configuration file
+    - name: Copy a missing configuration file
       win_copy:
         src:  'files/{{ conf_file }}'
-        dest: '{{ conf_dir }}{{ conf_file }}'
-      register: file_create  
+        dest: '{{ conf_dir }}\{{ conf_file }}'
       when: 
         - folder_check.stat.exists == true
         - file_result.matched == 0
